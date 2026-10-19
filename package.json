@@ -5,13 +5,12 @@
   "module": "dist/index.mjs",
   "scripts": {
     "build": "tsdown",
-    "check:lint": "oxlint .",
+    "lint": "oxlint src && oxlint -c oxlint.tests.config.ts tests",
     "fmt": "oxfmt .",
-    "lint": "oxlint . --fix",
-    "check:compile": "tsc -noEmit",
+    "compile": "tsc -noEmit",
     "check:fmt": "oxfmt --check .",
     "test": "vitest run",
-    "check": "pnpm check:compile && pnpm check:lint && pnpm check:fmt && pnpm check"
+    "check-style": "pnpm lint && pnpm check:fmt"
   },
   "publishConfig": {
     "registry": "https://pkg.npm.github.com"

@@ -1,7 +1,7 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "types": ["@jghiloni/vite-plugin-solid2-svg/svg"],
+    "types": ["../../src/global.d.ts"],
   },
   "include": ["index.test.ts"],
 }

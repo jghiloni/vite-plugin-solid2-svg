@@ -25,7 +25,9 @@ jobs:
           require-lockfile: true
           runtime: node@lts
       - name: Run checks
-        run: pnpm check
+        run: |
+          pnpm compile
+          pnpm style-check
   test:
     runs-on: ubuntu-latest
     name: Run checks

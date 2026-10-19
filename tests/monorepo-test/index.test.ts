@@ -45,7 +45,6 @@ describe("vite-solid-svg monorepo test", () => {
       "solid",
       "academic-cap.svg?solid",
     );
-    console.log(svgPath);
     const result = await (plugin.load as Load)(svgPath);
 
     expect(result).toBeDefined();
