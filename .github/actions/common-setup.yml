@@ -1,0 +1,20 @@
+# yaml-language-server: $schema=https://jsontools.tools/schemas/data/github-action.json
+name: "Setup"
+description: "Common CI job setup actions"
+inputs:
+  runtime:
+    description: "The PNPM runtime"
+    required: true
+    default: node@lts
+
+runs:
+  using: composite
+  steps:
+    - name: Checkout
+      uses: actions/checkout@v7
+    - name: Setup PNPM
+      uses: pnpm/setup@v3
+      with:
+        cache: true
+        runtime: ${{inputs.runtime}}
+        require-lockfile: true

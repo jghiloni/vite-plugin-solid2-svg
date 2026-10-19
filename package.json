@@ -1,0 +1,85 @@
+{
+  "name": "@jghiloni/vite-plugin-solid2-svg",
+  "version": "0.2.0",
+  "description": "Vite Plugin to use svg files as Solid2 Components",
+  "module": "dist/index.mjs",
+  "scripts": {
+    "build": "tsdown",
+    "check:lint": "oxlint .",
+    "fmt": "oxfmt .",
+    "lint": "oxlint . --fix",
+    "check:compile": "tsc -noEmit",
+    "check:fmt": "oxfmt --check .",
+    "test": "vitest run",
+    "check": "pnpm check:compile && pnpm check:lint && pnpm check:fmt && pnpm check"
+  },
+  "publishConfig": {
+    "registry": "https://pkg.npm.github.com"
+  },
+  "keywords": [
+    "vite",
+    "plugin",
+    "svg",
+    "solid-js",
+    "solid2"
+  ],
+  "author": {
+    "email": "packages@joshghiloni.me",
+    "name": "Josh Ghiloni",
+    "url": "https://github.com/jghiloni"
+  },
+  "license": "MIT",
+  "devEngines": {
+    "packageManager": {
+      "name": "pnpm",
+      "version": "12.14.0",
+      "onFail": "download"
+    }
+  },
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist/*",
+    "README.md",
+    "LICENSE",
+    "AGENTS.md",
+    "CLAUDE.md",
+    "llms.txt"
+  ],
+  "engines": {
+    "node": "^24 || ^26"
+  },
+  "packageManager": "pnpm@12.14.0",
+  "type": "module",
+  "dependencies": {
+    "@thednp/domparser": "^0.2.0"
+  },
+  "devDependencies": {
+    "@solidjs/web": "catalog:solid2",
+    "@types/node": "^24.19.2",
+    "@vitest/coverage-istanbul": "^5",
+    "eslint-plugin-solid": "^0.18.1",
+    "heroicons": "^2.2.0",
+    "oxfmt": "^0.73.0",
+    "oxlint": "~1.88.0",
+    "solid-js": "catalog:solid2",
+    "tsdown": "^0.23.1",
+    "typescript": "^7",
+    "vite": "^8",
+    "vitest": "^5"
+  },
+  "peerDependencies": {
+    "@solidjs/web": "catalog:solid2",
+    "solid-js": "catalog:solid2",
+    "vite": "^8"
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts",
+      "module-sync": "./dist/index.js"
+    },
+    "./svg": {
+      "types": "./dist/global.d.ts"
+    }
+  }
+}

@@ -1,0 +1,10 @@
+declare module "*.svg?solid" {
+  import { ComponentProps } from "@solidjs/web";
+  import { Component } from "solid-js";
+  type SVGComponentProps = ComponentProps<"svg"> & {
+    width?: ComponentProps<"svg">["width"] | null;
+    height?: ComponentProps<"svg">["height"] | null;
+  };
+  const content: Component<SVGComponentProps>;
+  export default content;
+}

@@ -1,0 +1,42 @@
+name: CI & Test
+
+on:
+  push: &ci-triggers
+    branches:
+      - main
+    paths:
+      - src/
+      - .github/workflows/ci.yml
+  pull_request: *ci-triggers
+  
+jobs:
+  style-check:
+    runs-on: ubuntu-latest
+    name: Lint and Format
+    steps:
+      - name: Setup
+        uses: ./.github/actions/common-setup.yml@main
+      - name: Run checks
+        run: pnpm check
+  test:
+    runs-on: ubuntu-latest
+    name: Run checks
+    needs: [style-check]
+    strategy:
+      matrix:
+        runtime: 
+          - node@lts
+          - node@latest
+          - bun@latest
+          - deno@2 
+    steps:
+      - name: Setup
+        uses: ./.github/actions/common-setup.yml@main
+        with:
+          runtime: ${{matrix.runtime}}
+
+      - name: Test
+        run: pnpm test
+
+      - name: Build
+        run: pnpm build

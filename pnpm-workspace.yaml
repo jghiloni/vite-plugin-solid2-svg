@@ -1,0 +1,36 @@
+packages:
+  - .
+  - tests/monorepo-test
+  - demo 
+  
+minimumReleaseAge: 7200 # 5 days
+minimumReleaseAgeExclude:
+  - "@pnpm/*"
+  - pnpm
+  - solid-js
+  - "@solidjs/*"
+  - oxlint
+  - "@oxlint/*"
+
+minimumReleaseAgeIgnoreMissingTime: false
+
+lockfile:
+  includeResolutionSettings: true
+
+trustPolicy: no-downgrade
+trustPolicyExclude:
+  - semver
+
+autoDedupe: true
+permissions:
+  "@solidjs/diagnostics":
+    skills: false
+  "@solidjs/web":
+    skills: false
+  solid-js:
+    skills: false
+
+catalogs:
+  solid2: 
+    solid-js: &solid2 "^2.0.0-rc.15"
+    "@solidjs/web": *solid2
