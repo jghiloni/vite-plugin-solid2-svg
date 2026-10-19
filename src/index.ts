@@ -2,12 +2,7 @@ import fs, { existsSync } from "node:fs";
 import path, { resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
-import {
-  createFilter,
-  Plugin,
-  transformWithOxc,
-  type ResolvedConfig,
-} from "vite";
+import { createFilter, Plugin, transformWithOxc, type ResolvedConfig } from "vite";
 
 import { htmlToSolid } from "./htmlToSolid";
 import { type VitePluginSvgSolidOptions } from "./types";
@@ -33,9 +28,7 @@ export default function SVGComponent(props = {}) {
   return componentCode;
 }
 
-export default function vitePluginSvgSolid(
-  options: VitePluginSvgSolidOptions = {},
-): Plugin {
+export default function vitePluginSvgSolid(options: VitePluginSvgSolidOptions = {}): Plugin {
   const { oxcOptions, include = ["**/*.svg?solid"], exclude } = options;
   const filter = createFilter(include, exclude);
   const postfixRE = /[?#].*$/s;

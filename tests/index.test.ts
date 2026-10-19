@@ -1,22 +1,19 @@
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
+
+import { JSX, ValidComponent } from "@solidjs/web";
 import { describe, expect, it, vi } from "vitest";
+
+import { createElement } from "../src/createElement";
+import { htmlToSolid } from "../src/htmlToSolid";
+// import plugin
+import svgSolid from "../src/index";
 import type { VitePluginSvgSolidOptions } from "../src/types";
 import { mockPlugin8Context } from "./fixtures/mock.ts";
 
-// import plugin
-import svgSolid from "../src/index";
-
-import { JSX, ValidComponent } from "@solidjs/web";
-import { createElement } from "../src/createElement";
-import { htmlToSolid } from "../src/htmlToSolid";
-
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
-type Load = (
-  id: string,
-  ops?: { ssr: boolean },
-) => Promise<{ code: string; map: null } | null>;
+type Load = (id: string, ops?: { ssr: boolean }) => Promise<{ code: string; map: null } | null>;
 
 vi.mock("vite", async () => {
   const actual = await vi.importActual("vite");
@@ -102,7 +99,6 @@ describe("vite-solid-svg", () => {
     expect(result?.map).not.toBe(null);
   });
 
-  
   it("should not transform non-svg files", async () => {
     const plugin = svgSolid();
     const result = await (plugin.load as Load)("test.js?solid");
@@ -129,9 +125,7 @@ describe("vite-solid-svg", () => {
   });
 
   it("should not quote single-char attribute names", () => {
-    const { code } = htmlToSolid(
-      '<svg viewBox="0 0 10 10"><text x="10" y="6">hi</text><path d="M0 0"/></svg>',
-    );
+    const { code } = htmlToSolid('<svg viewBox="0 0 10 10"><text x="10" y="6">hi</text><path d="M0 0"/></svg>');
     expect(code).toContain('x: "10"');
     expect(code).toContain('y: "6"');
     expect(code).toContain('d: "M0 0"');
@@ -139,23 +133,15 @@ describe("vite-solid-svg", () => {
   });
 
   it("should escape attribute values so generated code stays valid", () => {
-    const { code } = htmlToSolid(
-      `<svg viewBox="0 0 10 10" aria-label='say "hi"'></svg>`,
-    );
+    const { code } = htmlToSolid(`<svg viewBox="0 0 10 10" aria-label='say "hi"'></svg>`);
     expect(code).toContain(`\\"hi\\"`);
-    expect(
-      () => new Function("createElement", "merge", "props", `return (${code})`),
-    ).not.toThrow();
+    expect(() => new Function("createElement", "merge", "props", `return (${code})`)).not.toThrow();
   });
 
   it("should escape text content so generated code stays valid", () => {
-    const { code } = htmlToSolid(
-      '<svg viewBox="0 0 10 10"><text>`tick` ${evil} a\\b</text></svg>',
-    );
+    const { code } = htmlToSolid('<svg viewBox="0 0 10 10"><text>`tick` ${evil} a\\b</text></svg>');
     expect(code).toContain("\\`tick\\` \\${evil} a\\\\b");
-    expect(
-      () => new Function("createElement", "merge", "props", `return (${code})`),
-    ).not.toThrow();
+    expect(() => new Function("createElement", "merge", "props", `return (${code})`)).not.toThrow();
   });
 
   it("should handle invalid markup", () => {

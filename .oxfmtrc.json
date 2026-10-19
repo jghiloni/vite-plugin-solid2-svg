@@ -13,5 +13,4 @@
   "tabWidth": 2,
   "objectWrap": "preserve",
   "sortPackageJson": true,
-  "ignorePatterns": ["dist/*"]
 }
