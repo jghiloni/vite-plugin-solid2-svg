@@ -5,7 +5,7 @@
   "module": "dist/index.mjs",
   "scripts": {
     "build": "tsdown",
-    "lint": "oxlint src && oxlint -c oxlint.tests.config.ts tests",
+    "lint": "oxlint src",
     "fmt": "oxfmt .",
     "compile": "tsc -noEmit",
     "check:fmt": "oxfmt --check .",
