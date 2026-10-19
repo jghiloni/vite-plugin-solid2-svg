@@ -13,7 +13,9 @@
     "check-style": "pnpm lint && pnpm check:fmt"
   },
   "publishConfig": {
-    "registry": "https://pkg.npm.github.com"
+    "registry": "https://npm.pkg.github.com",
+    "access": "public",
+    "provenance": true
   },
   "keywords": [
     "vite",
@@ -80,5 +82,8 @@
     "./svg": {
       "types": "./dist/global.d.ts"
     }
+  },
+  "repository": {
+    "url": "https://github.com/jghiloni/vite-plugin-solid2-svg"
   }
 }
