@@ -44,12 +44,41 @@ describe("vite-solid-svg", () => {
     expect(typeof plugin.load).toBe("function");
   });
 
-  it("should transform svg files with ?solid query with vite 8", async () => {
+  it("should transform svg files with ?solid query from the public dir", async () => {
     const plugin = svgSolid();
     // @ts-expect-error - this is testing
     plugin?.buildStart?.call(mockPlugin8Context);
-    const svgPath = resolve(__dirname, "./fixtures/solid.svg");
-    const result = await (plugin.load as Load)(svgPath + "?solid");
+    const svgPath = "/solid.svg?solid";
+    const result = await (plugin.load as Load)(svgPath);
+
+    expect(result).toBeDefined();
+    expect(typeof result?.code).toBe("string");
+
+    // Check if the transformed code includes Solid imports
+    expect(result?.code).toContain("import { createElement } from");
+
+    // Check if the transformed code includes Solid imports
+    expect(result?.code).toContain("import { merge } from");
+
+    // Check if the transformed code creates a component
+    expect(result?.code).toContain("export default function SVGComponent");
+
+    // Check if the component handles props
+    expect(result?.code).toContain("props = {}");
+
+    // Check if SVG content is included
+    expect(result?.code).toContain("viewBox");
+
+    // Check map is generated
+    expect(result?.map).not.toBe(null);
+  });
+
+  it("should transform svg files with ?solid query from a repo dir", async () => {
+    const plugin = svgSolid();
+    // @ts-expect-error - this is testing
+    plugin?.buildStart?.call(mockPlugin8Context);
+    const svgPath = resolve(__dirname, "fixtures", "solid-no-props.svg?solid");
+    const result = await (plugin.load as Load)(svgPath);
 
     expect(result).toBeDefined();
     expect(typeof result?.code).toBe("string");

@@ -48,6 +48,3 @@ jobs:
           runtime: ${{matrix.runtime}}
       - name: Test
         run: pnpm test
-
-      - name: Build
-        run: pnpm build

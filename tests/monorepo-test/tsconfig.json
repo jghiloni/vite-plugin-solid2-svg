@@ -1,7 +1,0 @@
-{
-  "extends": "../../tsconfig.json",
-  "compilerOptions": {
-    "types": ["../../src/global.d.ts"],
-  },
-  "include": ["index.test.ts"],
-}
