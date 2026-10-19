@@ -14,8 +14,16 @@ jobs:
     runs-on: ubuntu-latest
     name: Lint and Format
     steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 1
       - name: Setup
-        uses: ./.github/actions/common-setup@main
+        uses: pnpm/setup@v3
+        with:
+          cache: true
+          require-lockfile: true
+          runtime: node@lts
       - name: Run checks
         run: pnpm check
   test:
@@ -30,11 +38,16 @@ jobs:
           - bun@latest
           - deno@2 
     steps:
-      - name: Setup
-        uses: ./.github/actions/common-setup@main
+      - name: Checkout
+        uses: actions/checkout@v7
         with:
+          fetch-depth: 1
+      - name: Setup
+        uses: pnpm/setup@v3
+        with:
+          cache: true
+          require-lockfile: true
           runtime: ${{matrix.runtime}}
-
       - name: Test
         run: pnpm test
 
