@@ -15,7 +15,7 @@ jobs:
     name: Lint and Format
     steps:
       - name: Setup
-        uses: ./.github/actions/common-setup.yml@main
+        uses: ./.github/actions/common-setup@main
       - name: Run checks
         run: pnpm check
   test:
@@ -31,7 +31,7 @@ jobs:
           - deno@2 
     steps:
       - name: Setup
-        uses: ./.github/actions/common-setup.yml@main
+        uses: ./.github/actions/common-setup@main
         with:
           runtime: ${{matrix.runtime}}
 
