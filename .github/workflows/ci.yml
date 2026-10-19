@@ -7,9 +7,9 @@ on:
     paths:
       - src/
       - .github/workflows/ci.yml
-      - package.json 
+      - package.json
   pull_request: *ci-triggers
-  
+
 jobs:
   style-check:
     runs-on: ubuntu-latest
@@ -33,11 +33,11 @@ jobs:
     needs: [style-check]
     strategy:
       matrix:
-        runtime: 
+        runtime:
           - node@lts
           - node@latest
           - bun@latest
-          - deno@2 
+          - deno@2
     steps:
       - name: Checkout
         uses: actions/checkout@v7
@@ -49,3 +49,28 @@ jobs:
           runtime: ${{matrix.runtime}}
       - name: Test
         run: pnpm test
+  publish:
+    if: github.event == "push"
+    runs-on: ubuntu-latest
+    name: Publish to Github Packages
+    needs: [test]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+      - name: Setup PNPM
+        uses: pnpm/setup@v3
+        with:
+          cache: true
+          require-lockfile: true
+      - name: Setup Node
+        uses: actions/setup-node@v7
+        with:
+          node-version: latest
+          registry-url: https://npm.pkg.github.com
+          package-manager-cache: true
+      - name: Publish Package
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
+        run: |
+          pnpm build
+          pnpm publish
