@@ -25,7 +25,7 @@ jobs:
       - name: Run checks
         run: |
           pnpm compile
-          pnpm style-check
+          pnpm check-style
   test:
     runs-on: ubuntu-latest
     name: Run checks
